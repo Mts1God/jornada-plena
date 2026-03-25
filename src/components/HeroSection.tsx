@@ -1,9 +1,38 @@
+import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import heroImage from "@/assets/hero-woman.jpg";
 
 const HeroSection = () => {
+  useEffect(() => {
+    const revealItems =
+      document.querySelectorAll<HTMLElement>(".scroll-reveal");
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const elem = entry.target as HTMLElement;
+            elem.classList.add("animate-fade-in-up");
+            elem.style.opacity = "1";
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.15 },
+    );
+
+    revealItems.forEach((item) => {
+      item.style.opacity = "0";
+      observer.observe(item);
+    });
+
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <section id="inicio" className="relative min-h-screen flex items-center overflow-hidden">
+    <section
+      id="inicio"
+      className="relative min-h-screen flex items-center overflow-hidden"
+    >
       {/* Background image */}
       <div className="absolute inset-0">
         <img
@@ -18,30 +47,43 @@ const HeroSection = () => {
 
       <div className="container mx-auto relative z-10 pt-24">
         <div className="max-w-2xl space-y-8 animate-fade-in-up">
-          <p className="text-sm font-body uppercase tracking-[0.3em] text-primary">
+          <p className="scroll-reveal text-sm font-body uppercase tracking-[0.3em] text-primary">
             🌟 Integração do Autocuidado na Vida Diária
           </p>
 
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-display font-light leading-tight text-foreground">
+          <h1 className="scroll-reveal text-4xl md:text-6xl lg:text-7xl font-display font-light leading-tight text-foreground">
             Desperte a{" "}
-            <span className="font-semibold italic text-primary">mulher inteira</span>{" "}
+            <span className="font-semibold italic text-primary">
+              mulher inteira
+            </span>{" "}
             que existe em você
           </h1>
 
-          <p className="text-lg md:text-xl font-body font-light text-muted-foreground leading-relaxed max-w-xl">
-            Uma jornada profunda de reconexão com seu corpo, mente, emoção e espírito.
-            Descubra sua verdadeira essência e viva com propósito, leveza e autenticidade.
+          <p className="scroll-reveal text-lg md:text-xl font-body font-light text-foreground leading-relaxed max-w-xl">
+            Uma jornada profunda de reconexão com seu corpo, mente, emoção e
+            espírito. Descubra sua verdadeira essência e viva com propósito,
+            leveza e autenticidade.
           </p>
 
-          <p className="text-base font-body text-gold font-medium tracking-wide">
+          <p className="scroll-reveal text-base font-body text-gold font-medium tracking-wide">
             🏵️ Corpo • Mente • Emoção • Espírito
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 pt-4">
-            <Button variant="hero" size="lg" className="text-base px-10 py-6" asChild>
+            <Button
+              variant="hero"
+              size="lg"
+              className="text-base px-10 py-6"
+              asChild
+            >
               <a href="#contato">Iniciar Minha Jornada</a>
             </Button>
-            <Button variant="warmOutline" size="lg" className="text-base px-10 py-6" asChild>
+            <Button
+              variant="warmOutline"
+              size="lg"
+              className="text-base px-10 py-6"
+              asChild
+            >
               <a href="#sobre">Conheça o Método</a>
             </Button>
           </div>

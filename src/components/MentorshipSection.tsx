@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import mentorshipImage from "@/assets/mentorship-session.jpg";
 import { Check } from "lucide-react";
@@ -6,17 +7,20 @@ const steps = [
   {
     number: "01",
     title: "Autoconhecimento Profundo",
-    description: "Mergulhamos juntas na sua história, padrões e crenças para entender quem você realmente é.",
+    description:
+      "Mergulhamos juntas na sua história, padrões e crenças para entender quem você realmente é.",
   },
   {
     number: "02",
     title: "Reconexão Interior",
-    description: "Através de práticas integradas, você reconecta corpo, mente, emoção e espírito.",
+    description:
+      "Através de práticas integradas, você reconecta corpo, mente, emoção e espírito.",
   },
   {
     number: "03",
     title: "Transformação & Ação",
-    description: "Com clareza e propósito, você começa a viver de forma autêntica e alinhada com sua essência.",
+    description:
+      "Com clareza e propósito, você começa a viver de forma autêntica e alinhada com sua essência.",
   },
 ];
 
@@ -30,27 +34,58 @@ const includes = [
 ];
 
 const MentorshipSection = () => {
+  useEffect(() => {
+    const revealItems =
+      document.querySelectorAll<HTMLElement>(".scroll-reveal");
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const elem = entry.target as HTMLElement;
+            elem.classList.add("animate-fade-in-up");
+            elem.style.opacity = "1";
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.15 },
+    );
+
+    revealItems.forEach((item) => {
+      item.style.opacity = "0";
+      observer.observe(item);
+    });
+
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <section id="mentoria" className="py-24 bg-secondary/30">
       <div className="container mx-auto">
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <p className="text-sm font-body uppercase tracking-[0.3em] text-primary mb-4">
+          <p className="scroll-reveal text-sm font-body uppercase tracking-[0.3em] text-primary mb-4">
             A Mentoria
           </p>
-          <h2 className="text-3xl md:text-5xl font-display font-light text-foreground mb-6">
-            Inteireza Feminina:{" "}
-            <span className="italic font-semibold text-primary">o programa</span>
+          <h2 className="scroll-reveal text-3xl md:text-5xl font-display font-light text-foreground mb-6">
+            4C:{" "}
+            <span className="italic font-semibold text-primary">
+              o programa
+            </span>
           </h2>
-          <p className="text-base font-body text-muted-foreground leading-relaxed">
-            Um programa completo de mentoria que integra todas as dimensões do ser,
-            guiando você em uma jornada de autodescoberta, cura e empoderamento.
+          <p className="scroll-reveal text-base font-body text-muted-foreground leading-relaxed">
+            Um programa completo de mentoria que integra todas as dimensões do
+            ser, guiando você em uma jornada de autodescoberta, cura e
+            empoderamento.
           </p>
         </div>
 
         {/* Steps */}
         <div className="grid md:grid-cols-3 gap-8 mb-20">
           {steps.map((step) => (
-            <div key={step.number} className="relative bg-background rounded-2xl p-8 border border-border/50">
+            <div
+              key={step.number}
+              className="scroll-reveal relative bg-background rounded-2xl p-8 border border-border/50"
+            >
               <span className="text-6xl font-display font-bold text-primary/10 absolute top-4 right-6">
                 {step.number}
               </span>
@@ -66,7 +101,7 @@ const MentorshipSection = () => {
 
         {/* Image + Includes */}
         <div className="grid md:grid-cols-2 gap-12 items-center">
-          <div className="rounded-2xl overflow-hidden shadow-xl">
+          <div className="scroll-reveal rounded-2xl overflow-hidden shadow-xl opacity-0">
             <img
               src={mentorshipImage}
               alt="Sessão de mentoria com grupo de mulheres"
@@ -78,7 +113,7 @@ const MentorshipSection = () => {
           </div>
 
           <div className="space-y-6">
-            <h3 className="text-2xl md:text-3xl font-display text-foreground">
+            <h3 className="scroll-reveal text-2xl md:text-3xl font-display text-foreground">
               O que está incluído
             </h3>
             <div className="space-y-4">
@@ -92,18 +127,24 @@ const MentorshipSection = () => {
               ))}
             </div>
 
-            <div className="bg-lilac/30 rounded-xl p-6 mt-6">
+            <div className="scroll-reveal bg-lilac/30 rounded-xl p-6 mt-6">
               <p className="font-display text-lg text-foreground font-medium mb-2">
                 ✨ O que nos diferencia
               </p>
               <p className="font-body text-sm text-muted-foreground leading-relaxed">
-                Nosso método é único porque integra todas as dimensões do ser — corpo, mente,
-                emoção e espírito — em uma abordagem profunda, personalizada e amorosa.
-                Não é coaching, não é terapia. É uma jornada de inteireza.
+                Nosso método é único porque integra todas as dimensões do ser —
+                corpo, mente, emoção e espírito — em uma abordagem profunda,
+                personalizada e amorosa. Não é coaching, não é terapia. É uma
+                jornada de inteireza.
               </p>
             </div>
 
-            <Button variant="hero" size="lg" className="text-base px-10 py-6 mt-4" asChild>
+            <Button
+              variant="hero"
+              size="lg"
+              className="text-base px-10 py-6 mt-4"
+              asChild
+            >
               <a href="#contato">Quero Fazer Parte</a>
             </Button>
           </div>

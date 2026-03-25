@@ -1,28 +1,33 @@
+import { useEffect } from "react";
 import wellnessImage from "@/assets/wellness-still-life.jpg";
 
 const pillars = [
   {
     emoji: "🧘‍♀️",
     title: "Corpo",
-    description: "Reconexão com seu corpo como templo sagrado. Práticas de presença, respiração e cuidado físico consciente.",
+    description:
+      "Reconexão com seu corpo como templo sagrado. Práticas de presença, respiração e cuidado físico consciente.",
     color: "bg-warm/50",
   },
   {
     emoji: "🧠",
     title: "Mente",
-    description: "Reprogramação de crenças limitantes, clareza mental e desenvolvimento de uma mentalidade de crescimento.",
+    description:
+      "Reprogramação de crenças limitantes, clareza mental e desenvolvimento de uma mentalidade de crescimento.",
     color: "bg-lilac/50",
   },
   {
     emoji: "💗",
     title: "Emoção",
-    description: "Inteligência emocional, acolhimento das emoções e desenvolvimento de equilíbrio e resiliência interior.",
+    description:
+      "Inteligência emocional, acolhimento das emoções e desenvolvimento de equilíbrio e resiliência interior.",
     color: "bg-blush/50",
   },
   {
     emoji: "✨",
     title: "Espírito",
-    description: "Conexão com sua essência espiritual, propósito de vida e alinhamento com algo maior que você.",
+    description:
+      "Conexão com sua essência espiritual, propósito de vida e alinhamento com algo maior que você.",
     color: "bg-secondary",
   },
 ];
@@ -37,20 +42,45 @@ const outcomes = [
 ];
 
 const JourneySection = () => {
+  useEffect(() => {
+    const revealItems =
+      document.querySelectorAll<HTMLElement>(".scroll-reveal");
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const elem = entry.target as HTMLElement;
+            elem.classList.add("animate-fade-in-up");
+            elem.style.opacity = "1";
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.15 },
+    );
+
+    revealItems.forEach((item) => {
+      item.style.opacity = "0";
+      observer.observe(item);
+    });
+
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <section id="jornada" className="py-24 bg-background">
       <div className="container mx-auto">
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <p className="text-sm font-body uppercase tracking-[0.3em] text-primary mb-4">
+          <p className="scroll-reveal text-sm font-body uppercase tracking-[0.3em] text-primary mb-4">
             A Jornada de Transformação
           </p>
-          <h2 className="text-3xl md:text-5xl font-display font-light text-foreground mb-6">
+          <h2 className="scroll-reveal text-3xl md:text-5xl font-display font-light text-foreground mb-6">
             O Método{" "}
-            <span className="italic font-semibold text-primary">Inteireza Feminina</span>
+            <span className="italic font-semibold text-primary">4C</span>
           </h2>
-          <p className="text-base font-body text-muted-foreground leading-relaxed">
-            Uma abordagem integrada que honra todas as dimensões do ser feminino,
-            guiando você através de quatro pilares fundamentais.
+          <p className="scroll-reveal text-base font-body text-muted-foreground leading-relaxed">
+            Uma abordagem integrada que honra todas as dimensões do ser
+            feminino, guiando você através de quatro pilares fundamentais.
           </p>
         </div>
 
@@ -59,7 +89,7 @@ const JourneySection = () => {
           {pillars.map((pillar) => (
             <div
               key={pillar.title}
-              className={`${pillar.color} rounded-2xl p-8 text-center hover:shadow-lg transition-all duration-500 hover:-translate-y-1`}
+              className={`${pillar.color} scroll-reveal rounded-2xl p-8 text-center hover:shadow-lg transition-all duration-500 hover:-translate-y-1`}
             >
               <span className="text-4xl mb-4 block">{pillar.emoji}</span>
               <h3 className="text-xl font-display font-semibold text-foreground mb-3">
@@ -79,12 +109,15 @@ const JourneySection = () => {
               Resultados que você pode esperar
             </h3>
             <p className="font-body text-muted-foreground leading-relaxed">
-              Ao final dessa jornada, você terá vivido uma transformação real e profunda.
-              Não apenas no que você faz, mas em quem você é.
+              Ao final dessa jornada, você terá vivido uma transformação real e
+              profunda. Não apenas no que você faz, mas em quem você é.
             </p>
             <div className="space-y-3">
               {outcomes.map((outcome, i) => (
-                <div key={i} className="flex items-center gap-3 bg-card rounded-xl px-5 py-3 border border-border/50">
+                <div
+                  key={i}
+                  className="flex items-center gap-3 bg-card rounded-xl px-5 py-3 border border-border/50"
+                >
                   <span className="text-primary text-sm">✦</span>
                   <p className="font-body text-sm text-foreground">{outcome}</p>
                 </div>

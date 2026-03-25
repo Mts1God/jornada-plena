@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
 
@@ -14,12 +14,24 @@ const navLinks = [
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
+  const [hasShadow, setHasShadow] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setHasShadow(window.scrollY > 20);
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border/50">
+    <nav
+      className={`fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md transition-all duration-300 ${hasShadow ? "shadow-xl border-b border-border/50" : "border-b border-border/20"}`}
+    >
       <div className="container mx-auto flex items-center justify-between py-4">
-        <a href="#inicio" className="font-display text-2xl font-semibold text-foreground tracking-wide">
-          Inteireza <span className="text-primary">Feminina</span>
+        <a
+          href="#inicio"
+          className="font-display text-2xl font-semibold text-foreground tracking-wide"
+        >
+          Vida <span className="text-primary">Lirica</span>
         </a>
 
         {/* Desktop nav */}
@@ -39,7 +51,10 @@ const Navbar = () => {
         </div>
 
         {/* Mobile toggle */}
-        <button className="md:hidden text-foreground" onClick={() => setOpen(!open)}>
+        <button
+          className="md:hidden text-foreground"
+          onClick={() => setOpen(!open)}
+        >
           {open ? <X size={24} /> : <Menu size={24} />}
         </button>
       </div>

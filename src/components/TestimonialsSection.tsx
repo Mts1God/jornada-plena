@@ -14,7 +14,7 @@ const testimonials = [
   {
     name: "Fernanda R.",
     location: "Curitiba, PR",
-    text: "Eu não sabia que era possível sentir tanta paz e clareza. O método Inteireza Feminina me reconectou com partes de mim que eu tinha esquecido. Recomendo de coração.",
+    text: "Eu não sabia que era possível sentir tanta paz e clareza. O método Vida Lirica me reconectou com partes de mim que eu tinha esquecido. Recomendo de coração.",
   },
   {
     name: "Juliana M.",
